@@ -19,6 +19,7 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     background: rgb(195,245,198);
     transition: all .4s ease-in-out;
+    transform: scale(100%);
     background: linear-gradient(90deg, rgba(195,245,198,1) 0%, rgba(117,213,117,1) 100%);
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -28,15 +29,28 @@
     -moz-transition: all .4s ease-in-out;
     -ms-transition: all .4s ease-in-out;
     -o-transition: all .4s ease-in-out;
+    -webkit-transform: scale(100%);
+    -moz-transform: scale(100%);
+    -ms-transform: scale(100%);
+    -o-transform: scale(100%);
+}
+
+.single {
+    width: 100%;
 }
 
 .item:hover {
     box-shadow: rgba(100, 100, 111, 0.45) 0px 7px 29px 0px;
+    transform: scale(105%);
     border-radius: 15px;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
+    -webkit-transform: scale(105%);
+    -moz-transform: scale(105%);
+    -ms-transform: scale(105%);
+    -o-transform: scale(105%);
 }
 .item a > .text-container {
     padding: 2rem;
@@ -70,11 +84,4 @@
     -moz-transform: scale(100%);
     -ms-transform: scale(100%);
     -o-transform: scale(100%);
-}
-.item a img:hover {
-    transform: scale(110%);
-    -webkit-transform: scale(110%);
-    -moz-transform: scale(110%);
-    -ms-transform: scale(110%);
-    -o-transform: scale(110%);
 }

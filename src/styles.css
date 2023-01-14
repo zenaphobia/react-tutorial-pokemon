@@ -5,10 +5,35 @@ body {
 header span.bold {
     font-weight: 900;
     text-transform: uppercase;
+    font-size: 3vw;
+}
+header span.light {
+    font-size: 3vw;
+}
+
+.logo{
+    height: 5vw;
+    transform: scale(100%) rotateZ(0deg);
+    transition: all 0.45s ease-in-out;
+    -webkit-transition: all 0.45s ease-in-out;
+    -moz-transition: all 0.45s ease-in-out;
+    -ms-transition: all 0.45s ease-in-out;
+    -o-transition: all 0.45s ease-in-out;
+    -webkit-transform: scale(100%) rotateZ(0deg);
+    -moz-transform: scale(100%) rotateZ(0deg);
+    -ms-transform: scale(100%) rotateZ(0deg);
+    -o-transform: scale(100%) rotateZ(0deg);
+}
+.logo:hover{
+    transform: scale(105%) rotateZ(-7deg);
+    -webkit-transform: scale(105%) rotateZ(-7deg);
+    -moz-transform: scale(105%) rotateZ(-7deg);
+    -ms-transform: scale(105%) rotateZ(-7deg);
+    -o-transform: scale(105%) rotateZ(-7deg);
 }
 
 .mr {
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 button {
@@ -18,6 +43,7 @@ button {
     text-decoration: none;
     border: 2px solid white;
     color: white;
+    transform: scale(100%);
     transition: all 0.2s ease-in;
     background-color: transparent;
     -webkit-border-radius: 25px;
@@ -28,11 +54,20 @@ button {
     -moz-transition: all 0.2s ease-in;
     -ms-transition: all 0.2s ease-in;
     -o-transition: all 0.2s ease-in;
+    -webkit-transform: scale(100%);
+    -moz-transform: scale(100%);
+    -ms-transform: scale(100%);
+    -o-transform: scale(100%);
 }
 
 button:hover {
+    transform: scale(110%);
     background-color: white;
     color: black;
+    -webkit-transform: scale(110%);
+    -moz-transform: scale(110%);
+    -ms-transform: scale(110%);
+    -o-transform: scale(110%);
 }
 
 footer {
@@ -58,4 +93,16 @@ footer {
     -moz-transition: all 0.75s ease-in-out;
     -ms-transition: all 0.75s ease-in-out;
     -o-transition: all 0.75s ease-in-out;
+}
+
+.fw {
+    width: 100%;
+}
+
+.faded{
+    opacity: 50%;
+}
+img.error {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
 }
