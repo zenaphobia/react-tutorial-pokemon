@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Error from './Error';
 import '../pokeCard.css';
 
-function PokemonList({pokeDetails,singlePokemon, isSingle}) {
+function PokemonList({pokeDetails, singlePokemon, isSingle}) {
 
   const [details, setDetails] = useState([]);
   const [ singlePoke, setSinglePoke ] = useState(singlePokemon);

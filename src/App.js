@@ -14,6 +14,7 @@ function App() {
   const [ prevPageUrl, setPrevPageUrl ] = useState();
   const [ loading, setLoading ] = useState(true);
   const [ isSingle, setIsSingle ] = useState(false);
+  const [ filteredItems, setFilteredItems ] = useState([]);
 
   useEffect(() => {
     console.log("Fetching inital Pokemon list...");
@@ -105,6 +106,24 @@ function App() {
     console.log(details);
   }
 
+  async function getAllPokemon(){
+    let data;
+    const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0');
+    if(!response){
+      return;
+    }
+    console.log(response);
+  }
+
+  function filterPokemon(e){
+    e.preventDefault();
+    const value = inputRef.current.value;
+    let data;
+
+    details.filter()
+
+  }
+
   if(loading){
     return(
       <div className="d-flex justify-content-center align-items-center loading" style={{opacity: 1}}>
@@ -121,6 +140,7 @@ function App() {
           <div className='d-flex justify-content-center align-items-center'>
             <button className='mr' type='submit'>Search</button>
             <button type='button' onClick={()=>resetComponent()}>Reset</button>
+            <button type='button' onClick={()=>getAllPokemon()}>All</button>
           </div>
         </form>
       </div>
