@@ -3,6 +3,7 @@ import PokemonList from './components/PokemonList';
 import axios from 'axios';
 import './styles.css';
 import Pagination from './components/Pagination'
+import LoadingScreen from './components/LoadingScreen';
 
 function App() {
   const [ pokemon, setPokemon ] = useState([]);
@@ -39,9 +40,9 @@ function App() {
             const fetchPromises = pokemon.map(p => axios.get(p.url));
             const responses = await Promise.all(fetchPromises);
             setDetails(responses.map(res => res.data));
+            setLoading(false);
         }
         fetchData();
-        setLoading(false);
     }
   }, [pokemon]);
 
@@ -115,18 +116,6 @@ function App() {
   // }
 
 
-  function upDateDetails(list){
-    setLoading(true);
-    const promise = list.map(p=>{axios.get(p.url)})
-    const response = Promise.all(promise);
-    response.map(p => {
-      return setDetails(prev => {
-        return [...prev, p]
-      })
-    })
-    setLoading(false);
-  }
-
   function filterPokemon(){
 
     //returns an array of a single data object; _dFilter is the cached data in the details state, _pFilter is the data in the pokeList state.
@@ -142,76 +131,6 @@ function App() {
 
     return {_dFilter, _pFilter, _mFilter}
   }
-
-  async function fetchPokemonData(url){
-    let _data;
-    const response = await axios.get(url).catch( () => {
-      console.log("Error fetching data...");
-      _data = [];
-      return;
-    });
-
-    _data = response.data;
-    return _data;
-  }
-
-  const test = () => {
-  let cancel;
-  const _dFilter = details.filter(p => {
-    return p.name.toLowerCase().includes(query.toLowerCase());
-  })
-  const _pFilter = pokeList.filter(p => {
-    return p.name.toLowerCase().includes(query.toLowerCase());
-  })
-
-  if(query.length === 0){
-    setLoading(false);
-    return _dFilter;
-  }
-
-  //Check to see if pokemon exists...
-  if(_pFilter.length < 1){
-    console.log("check 1");
-    console.log(_dFilter);
-
-    //only show the first 30 results...
-    if(_dFilter.length > 30){
-      _dFilter.length = 30;
-    }
-    setLoading(false);
-    return _dFilter;
-  }
-  else{
-    //Check to see if the pokemon is cached...
-    setLoading(true);
-    if(_dFilter.length > 0 && _dFilter.length === _pFilter.length){
-      console.log("check 2");
-
-      //Only show the first 30 results...
-      if(_dFilter.length > 30){
-        _dFilter.length = 30;
-      }
-      return _dFilter;
-    }
-    else{
-      console.log("check 3");
-      setLoading(true);
-
-      //Get download list by comparing the download list and what's already cached.
-      const totalDownloadList = _pFilter.filter(p => !_dFilter.some( d => d.name === p.name));
-
-      //trim list so it's not downloading everything at once.
-      if(totalDownloadList.length > 30){
-        totalDownloadList.length = 30;
-      }
-      const promises = totalDownloadList.map(p=> axios.get(p.url, {cancelToken: new axios.CancelToken(c => cancel = c)}).then(()=>{
-        console.log(promises);
-      }));
-
-      return () => cancel();
-    }
-  }
-}
 
 
   const filteredPokemon = details.filter(p => {
@@ -238,9 +157,7 @@ function App() {
 
   if(loading){
     return(
-      <div className="d-flex justify-content-center align-items-center loading" style={{opacity: 1}}>
-        <p>Loading...</p>
-      </div>
+      <LoadingScreen/>
     )
   }
 
@@ -253,7 +170,8 @@ function App() {
           </div>
         </form>
       </div>
-      <PokemonList pokeDetails={filteredPokemon} loading={loading} className="container"/>
+      <PokemonList pokeDetails={filteredPokemon} isLoading={loading} className="container"/>
+      {/* <LoadingScreen/> */}
       <footer className="d-flex w-100 py-3 my-3 br-5">
         <Pagination className="d-flex align-items-center justify-content center"
             goToNextPage = {nextPageUrl ? goToNextPage: null}

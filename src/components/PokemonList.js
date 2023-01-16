@@ -2,27 +2,19 @@ import { useEffect, useState } from 'react';
 import Error from './Error';
 import '../pokeCard.css';
 import missing from '../Assets/Logos/pokeball.svg'
+import LoadingScreen from './LoadingScreen';
 
-function PokemonList({pokeDetails, loading}) {
+function PokemonList({pokeDetails, isLoading}) {
 
-  useEffect(()=> {
-    if(pokeDetails.length > 30){
-      pokeDetails.length = 30;
-    }
-
-  },[pokeDetails])
+  if(isLoading){
+    return(
+      <LoadingScreen/>
+    )
+  }
 
   if(!pokeDetails || pokeDetails.length === 0){
     return(
       <Error/>
-    )
-  }
-
-  if(loading){
-    return(
-      <div>
-        <p>loading...</p>
-      </div>
     )
   }
 
@@ -33,7 +25,7 @@ function PokemonList({pokeDetails, loading}) {
             <div key={p.id}className="item">
               <a href={"https://pokeapi.co/api/v2/pokemon/"+p.id} key={p.id}>
                 <div className="image-container">
-                  <img key={p.sprites.front_default}src={p.sprites.front_default ? p.sprites.front_default : missing} className={p.sprites.front_default ? '' : 'faded mb-3 py-3'} alt="" />
+                  <img key={p.sprites.front_default}src={p.sprites.front_default ? p.sprites.front_default : missing} loading ="lazy" className={p.sprites.front_default ? '' : 'faded mb-3 py-3'} alt="" />
                 </div>
                 <div className="text-container">
                   <h1 key={p.name}>{p.name}</h1>

@@ -116,6 +116,11 @@ footer {
     width: 100%;
 }
 
+.w-50{
+    width: 50%;
+    max-width: 50%;
+}
+
 .faded{
     opacity: 50%;
 }
@@ -131,8 +136,22 @@ div.fade-in{
     animation-duration: .3s;
 }
 
+#loading{
+    animation: loading;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
 @keyframes fade-in {
-    from{opacity: 0}
+    from{opacity: 0;}
     to{opacity: 1;}
 }
+
+@keyframes loading {
+    from{ transform:rotate(2deg) translate(-12px); -webkit-transform:rotate(2deg) translate(-12px); -moz-transform:rotate(2deg) translate(-12px); -ms-transform:rotate(2deg) translate(-12px); -o-transform:rotate(2deg) translate(-12px); }
+    to{ transform: rotate(25deg) translate(9px); -webkit-transform: rotate(25deg) translate(9px); -moz-transform: rotate(25deg) translate(9px); -ms-transform: rotate(25deg) translate(9px); -o-transform: rotate(25deg) translate(9px); }
+}
+
 
