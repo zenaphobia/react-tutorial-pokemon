@@ -7,22 +7,17 @@ import Pagination from './components/Pagination'
 function App() {
   const [ pokemon, setPokemon ] = useState([]);
   const [ details, setDetails ] = useState([]);
-  const [ singlePokemon, setSinglePokemon ] = useState({});
+  const [ pokeList, setPokeList ] = useState([]);
   const inputRef = useRef();
-  const [ currentPageUrl, setCurrentPageUrl ] = useState("https://pokeapi.co/api/v2/pokemon");
+  const [ currentPageUrl, setCurrentPageUrl ] = useState("https://pokeapi.co/api/v2/pokemon?limit=300000000&offset=0");
   const [ nextPageUrl, setNextPageUrl ] = useState();
   const [ prevPageUrl, setPrevPageUrl ] = useState();
   const [ loading, setLoading ] = useState(true);
-  const [ isSingle, setIsSingle ] = useState(false);
-  const [ filteredItems, setFilteredItems ] = useState([]);
+  const [ query, setQuery ] = useState("");
+  // const [ filteredPokemon, setFilteredPokemon ] = useState([]);
 
   useEffect(() => {
     console.log("Fetching inital Pokemon list...");
-    if(!currentPageUrl){
-      setNextPageUrl(null);
-      setPrevPageUrl(null);
-      return;
-    }
     setLoading(true);
     let cancel;
     axios.get(currentPageUrl, {
@@ -38,18 +33,190 @@ function App() {
   },[currentPageUrl])
 
   useEffect(() => {
-    console.log(pokemon);
-    if (pokemon && pokemon.length) {
+    if (pokemon.length) {
       console.log("Loading Pokemon details...");
         async function fetchData() {
             const fetchPromises = pokemon.map(p => axios.get(p.url));
             const responses = await Promise.all(fetchPromises);
             setDetails(responses.map(res => res.data));
-            setLoading(false);
         }
         fetchData();
+        setLoading(false);
     }
   }, [pokemon]);
+
+  // useEffect(()=>{
+  //   async function fetchData(url){
+  //     const response = await axios.get(url);
+  //     const results = response.data.results;
+  //     setPokeList(results);
+  //     setLoading(false);
+  //   }
+  //   fetchData('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0');
+  // },[])
+
+  // useEffect(()=> {
+
+  //   async function upateDetails(list){
+  //     setLoading(true);
+  //     const promise = list.map(p=>{axios.get(p.url)});
+  //     console.log(promise)
+  //     const responses = await Promise.all(promise);
+  //     console.log(responses);
+  //   }
+
+  //   if(query.length === 0 ){
+  //     setFilteredPokemon(details);
+  //   }
+  //   else{
+  //     var list = filterPokemon();
+  //     if(!list){
+  //       setFilteredPokemon(details);
+  //     }
+  //     console.log(list);
+
+  //     //return empty array if pokemon doesn't exist
+  //     if(!list._pFilter){
+  //       setFilteredPokemon([]);
+  //     }
+
+  //     //return pokemon if already cached...
+  //     if(list._dFilter.length > 0 && list._dFilter.length === list._pFilter.length){
+  //       setFilteredPokemon(list._dFilter);
+  //     }
+  //     else{
+  //       const _list = list._mFilter.splice(30, list._mFilter.length);
+  //       console.log("entering download...");
+  //       console.log(_list);
+  //       upateDetails(_list);
+  //       setLoading(false)
+  //     }
+  //   }
+
+  // },[query, details])
+
+  // var filteredPokemon = () =>{
+  //   if(query.length === 0){
+  //     return details;
+  //   }
+
+  //   const list = filterPokemon();
+
+  //   if(!list._pFilter){
+  //     return list._dFilter;
+  //   }
+  //   if(list._dFilter){
+  //     return list._dFilter;
+  //   }
+
+  //   upDateDetails(list._mFilter);
+  //   console.log(details);
+
+  // }
+
+
+  function upDateDetails(list){
+    setLoading(true);
+    const promise = list.map(p=>{axios.get(p.url)})
+    const response = Promise.all(promise);
+    response.map(p => {
+      return setDetails(prev => {
+        return [...prev, p]
+      })
+    })
+    setLoading(false);
+  }
+
+  function filterPokemon(){
+
+    //returns an array of a single data object; _dFilter is the cached data in the details state, _pFilter is the data in the pokeList state.
+    //_mFilter is the set of data that is the (pokeList - details) data, can be used to find what's needed to be downloaded...
+
+    const _dFilter = details.filter(p => {
+      return p.name.toLowerCase().includes(query.toLowerCase());
+    });
+    const _pFilter = pokeList.filter(p => {
+      return p.name.toLowerCase().includes(query.toLowerCase());
+    });
+    const _mFilter = _pFilter.filter(p => !_dFilter.some( d => d.name === p.name));
+
+    return {_dFilter, _pFilter, _mFilter}
+  }
+
+  async function fetchPokemonData(url){
+    let _data;
+    const response = await axios.get(url).catch( () => {
+      console.log("Error fetching data...");
+      _data = [];
+      return;
+    });
+
+    _data = response.data;
+    return _data;
+  }
+
+  const test = () => {
+  let cancel;
+  const _dFilter = details.filter(p => {
+    return p.name.toLowerCase().includes(query.toLowerCase());
+  })
+  const _pFilter = pokeList.filter(p => {
+    return p.name.toLowerCase().includes(query.toLowerCase());
+  })
+
+  if(query.length === 0){
+    setLoading(false);
+    return _dFilter;
+  }
+
+  //Check to see if pokemon exists...
+  if(_pFilter.length < 1){
+    console.log("check 1");
+    console.log(_dFilter);
+
+    //only show the first 30 results...
+    if(_dFilter.length > 30){
+      _dFilter.length = 30;
+    }
+    setLoading(false);
+    return _dFilter;
+  }
+  else{
+    //Check to see if the pokemon is cached...
+    setLoading(true);
+    if(_dFilter.length > 0 && _dFilter.length === _pFilter.length){
+      console.log("check 2");
+
+      //Only show the first 30 results...
+      if(_dFilter.length > 30){
+        _dFilter.length = 30;
+      }
+      return _dFilter;
+    }
+    else{
+      console.log("check 3");
+      setLoading(true);
+
+      //Get download list by comparing the download list and what's already cached.
+      const totalDownloadList = _pFilter.filter(p => !_dFilter.some( d => d.name === p.name));
+
+      //trim list so it's not downloading everything at once.
+      if(totalDownloadList.length > 30){
+        totalDownloadList.length = 30;
+      }
+      const promises = totalDownloadList.map(p=> axios.get(p.url, {cancelToken: new axios.CancelToken(c => cancel = c)}).then(()=>{
+        console.log(promises);
+      }));
+
+      return () => cancel();
+    }
+  }
+}
+
+
+  const filteredPokemon = details.filter(p => {
+    return p.name.toLowerCase().includes(query.toLowerCase());
+  }).splice(0,30);
 
   function goToNextPage() {
     if(!pokemon && !details){
@@ -66,62 +233,7 @@ function App() {
   }
 
   function onSubmit(e){
-    setLoading(true);
     e.preventDefault();
-    const value = inputRef.current.value;
-    let data;
-
-    if(value === '' || !value){
-      setLoading(false);
-      return;
-    }
-
-    axios.get('https://pokeapi.co/api/v2/pokemon/'+value).then(res => {
-    data = res.data;
-      setIsSingle(true);
-      setSinglePokemon(data);
-      setLoading(false);
-    })
-    .catch((error)=>{
-      if(error.response.status === 404){
-        console.log("No pokemon found...");
-        setDetails(null);
-        setSinglePokemon(null);
-        setCurrentPageUrl(null);
-        setLoading(false);
-      }
-    })
-    inputRef.current.value = '';
-
-  }
-
-  function resetComponent(){
-    setPokemon(null);
-    setDetails(null);
-    setSinglePokemon(null);
-    setIsSingle(false);
-    setCurrentPageUrl('');
-    setTimeout(()=>setCurrentPageUrl('https://pokeapi.co/api/v2/pokemon'),0);
-    console.log(pokemon);
-    console.log(details);
-  }
-
-  async function getAllPokemon(){
-    let data;
-    const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0');
-    if(!response){
-      return;
-    }
-    console.log(response);
-  }
-
-  function filterPokemon(e){
-    e.preventDefault();
-    const value = inputRef.current.value;
-    let data;
-
-    details.filter()
-
   }
 
   if(loading){
@@ -135,16 +247,13 @@ function App() {
   return (
     <div className='d-flex flex-column container justify-content-center align-items-center container-item' >
       <div className="d-flex align-items-center justify-content-center mb-3">
-        <form onSubmit={onSubmit} className="w-100 d-flex flex-direction-row justify-content-center" role="search">
-          <input type="search" ref={inputRef} className="form-control mr" placeholder='Search Pokemon by name...'/>
+        <form className="w-100 d-flex flex-direction-row justify-content-center" role="search">
+          <input value={query} onSubmit={e => {onSubmit(e)}} onChange={e => setQuery(e.target.value)} type="search" ref={inputRef} className="form-control mr" placeholder='Search Pokemon by name...'/>
           <div className='d-flex justify-content-center align-items-center'>
-            <button className='mr' type='submit'>Search</button>
-            <button type='button' onClick={()=>resetComponent()}>Reset</button>
-            <button type='button' onClick={()=>getAllPokemon()}>All</button>
           </div>
         </form>
       </div>
-      <PokemonList pokeDetails={details} singlePokemon={singlePokemon} isSingle={isSingle} className="container"/>
+      <PokemonList pokeDetails={filteredPokemon} loading={loading} className="container"/>
       <footer className="d-flex w-100 py-3 my-3 br-5">
         <Pagination className="d-flex align-items-center justify-content center"
             goToNextPage = {nextPageUrl ? goToNextPage: null}

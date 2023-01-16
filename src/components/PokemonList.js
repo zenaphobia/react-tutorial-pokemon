@@ -1,57 +1,39 @@
 import { useEffect, useState } from 'react';
 import Error from './Error';
 import '../pokeCard.css';
+import missing from '../Assets/Logos/pokeball.svg'
 
-function PokemonList({pokeDetails, singlePokemon, isSingle}) {
-
-  const [details, setDetails] = useState([]);
-  const [ singlePoke, setSinglePoke ] = useState(singlePokemon);
+function PokemonList({pokeDetails, loading}) {
 
   useEffect(()=> {
-    setDetails([]);
-    setDetails(pokeDetails);
-    // console.log(`details object is ${details.length}`);
-    // console.log(`isSingle variable is ${isSingle}`);
+    if(pokeDetails.length > 30){
+      pokeDetails.length = 30;
+    }
+
   },[pokeDetails])
 
-  useEffect(()=> {
-    setSinglePoke(null);
-    setSinglePoke(singlePokemon);
-  },[singlePokemon])
-
-  if(!details && !singlePoke){
+  if(!pokeDetails || pokeDetails.length === 0){
     return(
       <Error/>
     )
   }
 
-  if(isSingle){
+  if(loading){
     return(
-      <div className="fw justify-content-center">
-          <div className="d-flex mb-3 justify-content-center">
-            <div className="item single">
-              <a href={"https://pokeapi.co/api/v2/pokemon/"+singlePoke.id} key={singlePoke.id}>
-                <div className="image-container">
-                  <img src={singlePoke.sprites.front_default} alt="" />
-                </div>
-                <div className="text-container">
-                  <h1 key={singlePoke.name}>{singlePoke.name}</h1>
-                </div>
-              </a>
-            </div>
-          </div>
+      <div>
+        <p>loading...</p>
       </div>
     )
   }
 
   return (
-    <div className="row">
-        {details.map(p => (
-          <div className="col-md-3 mb-3">
-            <div className="item">
+    <div className="d-flex flex-row row w-100 fade-in">
+        {pokeDetails.map(p => (
+          <div key={p.id}className="col-lg-4 mb-3 flex-lg-grow-1">
+            <div key={p.id}className="item">
               <a href={"https://pokeapi.co/api/v2/pokemon/"+p.id} key={p.id}>
                 <div className="image-container">
-                  <img key={p.sprites.front_default}src={p.sprites.front_default} alt="" />
+                  <img key={p.sprites.front_default}src={p.sprites.front_default ? p.sprites.front_default : missing} className={p.sprites.front_default ? '' : 'faded mb-3 py-3'} alt="" />
                 </div>
                 <div className="text-container">
                   <h1 key={p.name}>{p.name}</h1>

@@ -1,3 +1,20 @@
+html{
+    scroll-behavior: smooth;
+    transition: width, height 1s ease-in-out;
+    -webkit-transition: width, height 1s ease-in-out;
+    -moz-transition: width, height 1s ease-in-out;
+    -ms-transition: width, height 1s ease-in-out;
+    -o-transition: width, height 1s ease-in-out;
+}
+
+div {
+    transition: width, height 1s ease-in-out;
+    -webkit-transition: width, height 1s ease-in-out;
+    -moz-transition: width, height 1s ease-in-out;
+    -ms-transition: width, height 1s ease-in-out;
+    -o-transition: width, height 1s ease-in-out;
+}
+
 body {
     margin: 0;
     background-color: #e1e1e1
@@ -106,3 +123,16 @@ img.error {
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
 }
+
+div.fade-in{
+    opacity: 1;
+    animation-name: fade-in;
+    animation-timing-function: ease-in-out;
+    animation-duration: .3s;
+}
+
+@keyframes fade-in {
+    from{opacity: 0}
+    to{opacity: 1;}
+}
+
