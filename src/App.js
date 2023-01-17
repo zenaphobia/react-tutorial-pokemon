@@ -9,7 +9,7 @@ import FILTERS from './constants/FilterTypeConstants';
 function App() {
   const [ pokemon, setPokemon ] = useState([]);
   const [ details, setDetails ] = useState([]);
-  const [ pokeList, setPokeList ] = useState([]);
+  const [ pokeList, setPokeList ] = useState([]); //can probably get deleted
   const inputRef = useRef();
   const [ currentPageUrl, setCurrentPageUrl ] = useState("https://pokeapi.co/api/v2/pokemon?limit=300000000&offset=0");
   const [ nextPageUrl, setNextPageUrl ] = useState();
