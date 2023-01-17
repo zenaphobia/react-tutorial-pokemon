@@ -15,6 +15,7 @@ function App() {
   const [ prevPageUrl, setPrevPageUrl ] = useState();
   const [ loading, setLoading ] = useState(true);
   const [ query, setQuery ] = useState("");
+  const [ useFilter, setUserFilter ] = useState("");
   // const [ filteredPokemon, setFilteredPokemon ] = useState([]);
 
   useEffect(() => {
@@ -171,7 +172,6 @@ function App() {
         </form>
       </div>
       <PokemonList pokeDetails={filteredPokemon} isLoading={loading} className="container"/>
-      {/* <LoadingScreen/> */}
       <footer className="d-flex w-100 py-3 my-3 br-5">
         <Pagination className="d-flex align-items-center justify-content center"
             goToNextPage = {nextPageUrl ? goToNextPage: null}
