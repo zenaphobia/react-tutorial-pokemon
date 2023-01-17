@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Error from './Error';
 import '../pokeCard.css';
 import missing from '../Assets/Logos/pokeball.svg'

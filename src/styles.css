@@ -87,11 +87,17 @@ button:hover {
     -o-transform: scale(110%);
 }
 
+button.light{
+    color: white;
+    border: none;
+    background: linear-gradient(90deg, rgba(145,163,255,1) 0%, rgba(54,87,255,1) 100%);
+}
+
 footer {
     position: sticky;
     bottom: 0px;
     background: rgb(145,163,255);
-    background: linear-gradient(90deg, rgba(145,163,255,1) 0%, rgba(54,87,255,1) 100%); 
+    background: linear-gradient(90deg, rgba(145,163,255,1) 0%, rgba(54,87,255,1) 100%);
 }
 
 .br-5 {

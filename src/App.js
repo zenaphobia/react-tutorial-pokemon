@@ -4,6 +4,7 @@ import axios from 'axios';
 import './styles.css';
 import Pagination from './components/Pagination'
 import LoadingScreen from './components/LoadingScreen';
+import FILTERS from './constants/FilterTypeConstants';
 
 function App() {
   const [ pokemon, setPokemon ] = useState([]);
@@ -15,7 +16,7 @@ function App() {
   const [ prevPageUrl, setPrevPageUrl ] = useState();
   const [ loading, setLoading ] = useState(true);
   const [ query, setQuery ] = useState("");
-  const [ useFilter, setUserFilter ] = useState("");
+  const [ userFilter, setUserFilter ] = useState("");
   // const [ filteredPokemon, setFilteredPokemon ] = useState([]);
 
   useEffect(() => {
@@ -42,6 +43,7 @@ function App() {
             const responses = await Promise.all(fetchPromises);
             setDetails(responses.map(res => res.data));
             setLoading(false);
+            console.log(details);
         }
         fetchData();
     }
@@ -138,6 +140,15 @@ function App() {
     return p.name.toLowerCase().includes(query.toLowerCase());
   }).splice(0,30);
 
+  const filteredPokemonTest = details.filter(p => {
+    return p.name.toLowerCase().includes(query.toLowerCase()) && p.types[0].type.name === userFilter;
+  }).splice(0,30);
+
+  // .filter(p => {
+  //   console.log(p);
+  //   return p.types[0].type.name.includes(userFilter);
+  // }).splice(0,30);
+
   function goToNextPage() {
     if(!pokemon && !details){
       console.log("Error no pages");
@@ -167,11 +178,13 @@ function App() {
       <div className="d-flex align-items-center justify-content-center mb-3">
         <form className="w-100 d-flex flex-direction-row justify-content-center" role="search">
           <input value={query} onSubmit={e => {onSubmit(e)}} onChange={e => setQuery(e.target.value)} type="search" ref={inputRef} className="form-control mr" placeholder='Search Pokemon by name...'/>
-          <div className='d-flex justify-content-center align-items-center'>
-          </div>
         </form>
+        <div className='d-flex justify-content-center align-items-center'>
+            <button onClick={()=>setUserFilter(FILTERS.GRASS)} className='light mr'>Grass</button>
+            <button onClick={()=>setUserFilter(FILTERS.NONE)} className='light'>Reset</button>
+        </div>
       </div>
-      <PokemonList pokeDetails={filteredPokemon} isLoading={loading} className="container"/>
+      <PokemonList pokeDetails={userFilter ? filteredPokemonTest : filteredPokemon} isLoading={loading} className="container"/>
       <footer className="d-flex w-100 py-3 my-3 br-5">
         <Pagination className="d-flex align-items-center justify-content center"
             goToNextPage = {nextPageUrl ? goToNextPage: null}
