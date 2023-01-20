@@ -17,7 +17,6 @@ function App() {
   const [ loading, setLoading ] = useState(true);
   const [ query, setQuery ] = useState("");
   const [ userFilter, setUserFilter ] = useState("");
-  // const [ filteredPokemon, setFilteredPokemon ] = useState([]);
 
   useEffect(() => {
     console.log("Fetching inital Pokemon list...");
@@ -49,76 +48,6 @@ function App() {
     }
   }, [pokemon]);
 
-  // useEffect(()=>{
-  //   async function fetchData(url){
-  //     const response = await axios.get(url);
-  //     const results = response.data.results;
-  //     setPokeList(results);
-  //     setLoading(false);
-  //   }
-  //   fetchData('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0');
-  // },[])
-
-  // useEffect(()=> {
-
-  //   async function upateDetails(list){
-  //     setLoading(true);
-  //     const promise = list.map(p=>{axios.get(p.url)});
-  //     console.log(promise)
-  //     const responses = await Promise.all(promise);
-  //     console.log(responses);
-  //   }
-
-  //   if(query.length === 0 ){
-  //     setFilteredPokemon(details);
-  //   }
-  //   else{
-  //     var list = filterPokemon();
-  //     if(!list){
-  //       setFilteredPokemon(details);
-  //     }
-  //     console.log(list);
-
-  //     //return empty array if pokemon doesn't exist
-  //     if(!list._pFilter){
-  //       setFilteredPokemon([]);
-  //     }
-
-  //     //return pokemon if already cached...
-  //     if(list._dFilter.length > 0 && list._dFilter.length === list._pFilter.length){
-  //       setFilteredPokemon(list._dFilter);
-  //     }
-  //     else{
-  //       const _list = list._mFilter.splice(30, list._mFilter.length);
-  //       console.log("entering download...");
-  //       console.log(_list);
-  //       upateDetails(_list);
-  //       setLoading(false)
-  //     }
-  //   }
-
-  // },[query, details])
-
-  // var filteredPokemon = () =>{
-  //   if(query.length === 0){
-  //     return details;
-  //   }
-
-  //   const list = filterPokemon();
-
-  //   if(!list._pFilter){
-  //     return list._dFilter;
-  //   }
-  //   if(list._dFilter){
-  //     return list._dFilter;
-  //   }
-
-  //   upDateDetails(list._mFilter);
-  //   console.log(details);
-
-  // }
-
-
   function filterPokemon(){
 
     //returns an array of a single data object; _dFilter is the cached data in the details state, _pFilter is the data in the pokeList state.
@@ -144,10 +73,10 @@ function App() {
     return p.name.toLowerCase().includes(query.toLowerCase()) && p.types[0].type.name === userFilter;
   }).splice(0,30);
 
-  // .filter(p => {
-  //   console.log(p);
-  //   return p.types[0].type.name.includes(userFilter);
-  // }).splice(0,30);
+  const filteredPokemonForEach = details.filter(p => {
+    return p.name.toLowerCase().includes(query.toLowerCase()) && p.types.some(poke => poke.type.name === userFilter);
+  });
+
 
   function goToNextPage() {
     if(!pokemon && !details){
@@ -180,11 +109,12 @@ function App() {
           <input value={query} onSubmit={e => {onSubmit(e)}} onChange={e => setQuery(e.target.value)} type="search" ref={inputRef} className="form-control mr" placeholder='Search Pokemon by name...'/>
         </form>
         <div className='d-flex justify-content-center align-items-center'>
+            <button onClick={()=>setUserFilter(FILTERS.POISON)} className='light mr'>Poison</button>
             <button onClick={()=>setUserFilter(FILTERS.GRASS)} className='light mr'>Grass</button>
-            <button onClick={()=>setUserFilter(FILTERS.NONE)} className='light'>Reset</button>
+            <button onClick={()=>setUserFilter(FILTERS.NONE)} className='light'>All</button>
         </div>
       </div>
-      <PokemonList pokeDetails={userFilter ? filteredPokemonTest : filteredPokemon} isLoading={loading} className="container"/>
+      <PokemonList pokeDetails={userFilter ? filteredPokemonForEach : filteredPokemon} isLoading={loading} className="container"/>
       <footer className="d-flex w-100 py-3 my-3 br-5">
         <Pagination className="d-flex align-items-center justify-content center"
             goToNextPage = {nextPageUrl ? goToNextPage: null}
