@@ -4,7 +4,8 @@ import axios from 'axios';
 import './styles.css';
 import Pagination from './components/Pagination'
 import LoadingScreen from './components/LoadingScreen';
-import FILTERS from './constants/FilterTypeConstants';
+import FILTERS_ARRAY from './constants/FilterTypeConstants';
+import UserFilter from './components/UserFilter';
 
 function App() {
   const [ pokemon, setPokemon ] = useState([]);
@@ -17,6 +18,7 @@ function App() {
   const [ loading, setLoading ] = useState(true);
   const [ query, setQuery ] = useState("");
   const [ userFilter, setUserFilter ] = useState("");
+  const [ selectedPokemon, setSelectedPokemon ] = useState(null);
 
   useEffect(() => {
     console.log("Fetching inital Pokemon list...");
@@ -75,8 +77,9 @@ function App() {
 
   const filteredPokemonForEach = details.filter(p => {
     return p.name.toLowerCase().includes(query.toLowerCase()) && p.types.some(poke => poke.type.name === userFilter);
-  });
+  }).splice(0,30);
 
+  const selectedPokemonFilter = details.some(p => p.id === selectedPokemon);
 
   function goToNextPage() {
     if(!pokemon && !details){
@@ -108,19 +111,17 @@ function App() {
         <form className="w-100 d-flex flex-direction-row justify-content-center" role="search">
           <input value={query} onSubmit={e => {onSubmit(e)}} onChange={e => setQuery(e.target.value)} type="search" ref={inputRef} className="form-control mr" placeholder='Search Pokemon by name...'/>
         </form>
-        <div className='d-flex justify-content-center align-items-center'>
-            <button onClick={()=>setUserFilter(FILTERS.POISON)} className='light mr'>Poison</button>
-            <button onClick={()=>setUserFilter(FILTERS.GRASS)} className='light mr'>Grass</button>
-            <button onClick={()=>setUserFilter(FILTERS.NONE)} className='light'>All</button>
-        </div>
       </div>
-      <PokemonList pokeDetails={userFilter ? filteredPokemonForEach : filteredPokemon} isLoading={loading} className="container"/>
-      <footer className="d-flex w-100 py-3 my-3 br-5">
+      <div className='d-flex justify-content-center align-items-center py-3'>
+            <UserFilter filters={FILTERS_ARRAY} setUserFilter={setUserFilter}/>
+      </div>
+      <PokemonList pokeDetails={userFilter ? filteredPokemonForEach : filteredPokemon} isLoading={loading} setSelectedPokemon={setSelectedPokemon} className="container"/>
+      {/* <footer className="d-flex w-100 py-3 my-3 br-5">
         <Pagination className="d-flex align-items-center justify-content center"
             goToNextPage = {nextPageUrl ? goToNextPage: null}
             goToPrevPage = {prevPageUrl ? goToPrevPage : null}
           />
-      </footer>
+      </footer> */}
     </div>
   );
 }

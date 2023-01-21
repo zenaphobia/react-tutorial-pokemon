@@ -22,14 +22,12 @@ function PokemonList({pokeDetails, isLoading}) {
         {pokeDetails.map(p => (
           <div key={p.id}className="col-lg-4 mb-3 flex-lg-grow-1">
             <div key={p.id}className="item">
-              <a href={"https://pokeapi.co/api/v2/pokemon/"+p.id} key={p.id}>
                 <div className="image-container">
-                  <img key={p.sprites.front_default}src={p.sprites.front_default ? p.sprites.front_default : missing} loading ="lazy" className={p.sprites.front_default ? '' : 'faded mb-3 py-3'} alt="" />
+                  <img key={p.sprites.front_default}src={p.sprites.front_default ? p.sprites.front_default : missing} loading ="lazy" className={p.sprites.front_default ? '' : 'faded-all mb-3 py-3'} alt="" />
                 </div>
                 <div className="text-container">
                   <h1 key={p.name}>{p.name}</h1>
                 </div>
-              </a>
             </div>
           </div>
         ))}

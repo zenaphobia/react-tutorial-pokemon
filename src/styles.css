@@ -55,22 +55,23 @@ header span.light {
 
 button {
     font-family: 'Poppins';
+    text-transform: capitalize;
     border-radius: 25px;
     padding: 5px 25px;
     text-decoration: none;
     border: 2px solid white;
     color: white;
     transform: scale(100%);
-    transition: all 0.2s ease-in;
+    transition: all 0.4s ease-in-out;
     background-color: transparent;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
     -ms-border-radius: 25px;
     -o-border-radius: 25px;
-    -webkit-transition: all 0.2s ease-in;
-    -moz-transition: all 0.2s ease-in;
-    -ms-transition: all 0.2s ease-in;
-    -o-transition: all 0.2s ease-in;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
     -webkit-transform: scale(100%);
     -moz-transform: scale(100%);
     -ms-transform: scale(100%);
@@ -91,6 +92,12 @@ button.light{
     color: white;
     border: none;
     background: linear-gradient(90deg, rgba(145,163,255,1) 0%, rgba(54,87,255,1) 100%);
+}
+
+button.light:target{
+    border-color: rgba(54,87,255,1);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%);
+    color:rgba(54,87,255,1);
 }
 
 footer {
@@ -130,6 +137,11 @@ footer {
 .faded{
     opacity: 50%;
 }
+
+.faded-all{
+    opacity: 15%;
+}
+
 img.error {
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
