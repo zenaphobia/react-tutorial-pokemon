@@ -6,6 +6,7 @@ import Pagination from './components/Pagination'
 import LoadingScreen from './components/LoadingScreen';
 import FILTERS_ARRAY from './constants/FilterTypeConstants';
 import UserFilter from './components/UserFilter';
+import PokemonPopUp from './components/PokemonPopUp';
 
 function App() {
   const [ pokemon, setPokemon ] = useState([]);
@@ -115,13 +116,7 @@ function App() {
       <div className='d-flex justify-content-center align-items-center py-3'>
             <UserFilter filters={FILTERS_ARRAY} setUserFilter={setUserFilter}/>
       </div>
-      <PokemonList pokeDetails={userFilter ? filteredPokemonForEach : filteredPokemon} isLoading={loading} setSelectedPokemon={setSelectedPokemon} className="container"/>
-      {/* <footer className="d-flex w-100 py-3 my-3 br-5">
-        <Pagination className="d-flex align-items-center justify-content center"
-            goToNextPage = {nextPageUrl ? goToNextPage: null}
-            goToPrevPage = {prevPageUrl ? goToPrevPage : null}
-          />
-      </footer> */}
+      <PokemonList pokeDetails={userFilter ? filteredPokemonForEach : filteredPokemon} isLoading={loading} className="container"/>
     </div>
   );
 }
