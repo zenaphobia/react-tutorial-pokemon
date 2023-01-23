@@ -1,10 +1,16 @@
 html{
+    font-family: 'poppins';
     scroll-behavior: smooth;
     transition: width, height 1s ease-in-out;
     -webkit-transition: width, height 1s ease-in-out;
     -moz-transition: width, height 1s ease-in-out;
     -ms-transition: width, height 1s ease-in-out;
     -o-transition: width, height 1s ease-in-out;
+}
+
+.title{
+    font-family: 'Poppins';
+    font-weight: 900;
 }
 
 div {
