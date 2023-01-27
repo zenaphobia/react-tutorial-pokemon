@@ -24,27 +24,29 @@ function PokemonPopUp({selectedPokemon, onHide, show}) {
         <img className="w-50" src={selectedPokemon[0].sprites.front_default} alt="" />
         <h3 className="text-center text-capitalize">{selectedPokemon[0].name}</h3>
         <div className="d-flex w-100 flex-row p-3" style={{backgroundColor: '#ededed'}}>
-          <div className="d-flex flex-column col-sm-6 overflow-y-auto w-50" style={{height: '200px'}}>
-            <h4 className="text-align-center">{selectedPokemon[0].moves[0] ? 'Moves' : 'No Available Moves' }</h4>
+          <div className="d-flex flex-column col-sm-6 overflow-y-auto w-50 align-items-center" style={{height: '200px'}}>
+            <div className="d-flex header-section w-100 justify-content-center">
+              <h4 className="text-align-center">{selectedPokemon[0].moves[0] ? 'Moves' : 'No Available Moves' }</h4>
+            </div>
             <ul>{selectedPokemon[0].moves.map(p=>(
-              <li className="text-capitalize">{p.move.name}</li>
+              <li className="text-capitalize text-align-center">{p.move.name}</li>
             ))}</ul>
           </div>
-          <div className="d-flex flex-column col-sm-6 overflow-y-auto w-50">
+          <div className="d-flex flex-column col-sm-6 overflow-y-auto w-50 align-items-center">
           <h4 className="text-align-center text-capitalize">{selectedPokemon[0].moves[0] ? 'Stats' : 'No Available Stats' }</h4>
             <ul className="text-capitalize">{selectedPokemon[0].stats.map(p=>(
-              <li>{p.stat.name}: {p.base_stat}</li>
+              <li><span className="bold">{p.stat.name}</span>: {p.base_stat}</li>
             ))}</ul>
           </div>
         </div>
       </div>
       <div className="modal-footer">
-        <button type="button" onClick={onHide} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" onClick={onHide} className="light" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-<div class="modal-backdrop fade show"></div>
+<div className="modal-backdrop fade show"></div>
     </>
   )
 }

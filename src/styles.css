@@ -25,17 +25,36 @@ body {
     margin: 0;
     background-color: #e1e1e1
 }
+
+li{
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+}
+
+span.bold {
+    font-weight: 700;
+}
+
+
 header span.bold {
     font-weight: 900;
     text-transform: uppercase;
-    font-size: 3vw;
+    font-size: max(1rem, 52px);
 }
+
 header span.light {
-    font-size: 3vw;
+    font-size: max(1rem, 52px);
 }
 
 .logo{
-    height: 5vw;
+    height: max(1rem, 75px);
     transform: scale(100%) rotateZ(0deg);
     transition: all 0.45s ease-in-out;
     -webkit-transition: all 0.45s ease-in-out;
@@ -171,6 +190,10 @@ div.fade-in{
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
     animation-direction: alternate;
+}
+
+.modal-content{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 @keyframes fade-in {

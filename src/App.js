@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import PokemonList from './components/PokemonList';
 import axios from 'axios';
 import './styles.css';
-import Pagination from './components/Pagination'
 import LoadingScreen from './components/LoadingScreen';
 import FILTERS_ARRAY from './constants/FilterTypeConstants';
 import UserFilter from './components/UserFilter';
@@ -45,7 +44,6 @@ function App() {
             const responses = await Promise.all(fetchPromises);
             setDetails(responses.map(res => res.data));
             setLoading(false);
-            console.log(details);
         }
         fetchData();
     }

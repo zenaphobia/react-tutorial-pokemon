@@ -4,6 +4,8 @@ import missing from '../Assets/Logos/pokeball.svg'
 import LoadingScreen from './LoadingScreen';
 import PokemonPopUp from './PokemonPopUp';
 import { useState } from 'react';
+import getGradient from '../constants/pokeGradient'
+import { getFontColor } from '../constants/pokeGradient';
 
 function PokemonList({pokeDetails, isLoading}) {
 
@@ -27,8 +29,6 @@ function PokemonList({pokeDetails, isLoading}) {
     setSelectedPokemon(poke);
     setShowModal(()=>{setShowModal(!showModal)});
   }
-
-  //p.types.some(poke => poke.type.name === userFilter);
 
   return (
   <div>
