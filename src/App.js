@@ -13,12 +13,11 @@ function App() {
   const [ pokeList, setPokeList ] = useState([]); //can probably get deleted
   const inputRef = useRef();
   const [ currentPageUrl, setCurrentPageUrl ] = useState("https://pokeapi.co/api/v2/pokemon?limit=300000000&offset=0");
-  const [ nextPageUrl, setNextPageUrl ] = useState();
-  const [ prevPageUrl, setPrevPageUrl ] = useState();
+  // const [ nextPageUrl, setNextPageUrl ] = useState();
+  // const [ prevPageUrl, setPrevPageUrl ] = useState();
   const [ loading, setLoading ] = useState(true);
   const [ query, setQuery ] = useState("");
   const [ userFilter, setUserFilter ] = useState("");
-  const [ selectedPokemon, setSelectedPokemon ] = useState(null);
 
   useEffect(() => {
     console.log("Fetching inital Pokemon list...");
@@ -27,8 +26,8 @@ function App() {
     axios.get(currentPageUrl, {
       cancelToken: new axios.CancelToken(c => cancel = c)
     }).then(res => {
-      setNextPageUrl(res.data.next);
-      setPrevPageUrl(res.data.previous);
+      // setNextPageUrl(res.data.next);
+      // setPrevPageUrl(res.data.previous);
       setPokemon(res.data.results);
     })
 
@@ -70,29 +69,28 @@ function App() {
     return p.name.toLowerCase().includes(query.toLowerCase());
   }).splice(0,30);
 
-  const filteredPokemonTest = details.filter(p => {
-    return p.name.toLowerCase().includes(query.toLowerCase()) && p.types[0].type.name === userFilter;
-  }).splice(0,30);
+  // const filteredPokemonTest = details.filter(p => {
+  //   return p.name.toLowerCase().includes(query.toLowerCase()) && p.types[0].type.name === userFilter;
+  // }).splice(0,30);
 
   const filteredPokemonForEach = details.filter(p => {
     return p.name.toLowerCase().includes(query.toLowerCase()) && p.types.some(poke => poke.type.name === userFilter);
   }).splice(0,30);
 
-  const selectedPokemonFilter = details.some(p => p.id === selectedPokemon);
 
-  function goToNextPage() {
-    if(!pokemon && !details){
-      console.log("Error no pages");
-    }
-    setCurrentPageUrl(nextPageUrl);
-  }
+  // function goToNextPage() {
+  //   if(!pokemon && !details){
+  //     console.log("Error no pages");
+  //   }
+  //   setCurrentPageUrl(nextPageUrl);
+  // }
 
-  function goToPrevPage() {
-    if(!pokemon && !details){
-      console.log("Error no pages");
-    }
-    setCurrentPageUrl(prevPageUrl);
-  }
+  // function goToPrevPage() {
+  //   if(!pokemon && !details){
+  //     console.log("Error no pages");
+  //   }
+  //   setCurrentPageUrl(prevPageUrl);
+  // }
 
   function onSubmit(e){
     e.preventDefault();
