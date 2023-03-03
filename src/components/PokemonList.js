@@ -31,8 +31,8 @@ function PokemonList({pokeDetails, isLoading}) {
   }
 
   return (
-  <div>
-    <div className="d-flex flex-row row w-100 fade-in">
+  <div className='container'>
+    <div className="d-flex flex-row row fade-in">
         {pokeDetails.map(p => (
           <div  onClick={()=>{filterSelectedPokemon(p.id)}} id={p.id} key={p.id}className="col-lg-4 mb-3 flex-lg-grow-1">
             <div key={p.id}className="item">
