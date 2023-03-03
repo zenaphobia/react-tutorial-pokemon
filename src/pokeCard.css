@@ -90,6 +90,6 @@
 
 @media (hover: none) {
     .item:hover { transform: none ; -webkit-transform: none ; -moz-transform: none ; -ms-transform: none ; -o-transform: none ; }
-    .item:hover { transform: none; -webkit-transform: none; -moz-transform: none; -ms-transform: none; -o-transform: none; }
+    .item:hover { transform: none; -webkit-transform: none; -moz-transform: none; -ms-transform: none; -o-transform: none; border-radius: none; -webkit-border-radius: none; -moz-border-radius: none; -ms-border-radius: none; -o-border-radius: none; }
 }
 
