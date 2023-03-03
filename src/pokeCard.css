@@ -86,3 +86,10 @@
     -ms-transform: scale(100%);
     -o-transform: scale(100%);
 }
+
+
+@media (hover: none) {
+    .item:hover { transform: none ; -webkit-transform: none ; -moz-transform: none ; -ms-transform: none ; -o-transform: none ; }
+    .item:hover { transform: none; -webkit-transform: none; -moz-transform: none; -ms-transform: none; -o-transform: none; }
+}
+
